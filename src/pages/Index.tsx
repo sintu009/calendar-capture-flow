@@ -7,44 +7,22 @@ import BookingForm from '@/components/BookingForm';
 import DetailsModal from '@/components/DetailsModal';
 import { Calendar, Book, Check } from 'lucide-react';
 
-// Sample events data - in a real app, this would come from a backend
-const sampleEvents = [
-  {
-    id: '1',
-    title: 'Wedding Photography',
-    date: new Date(2025, 5, 15), // June 15, 2025
-    time: '14:00',
-    description: 'Outdoor wedding ceremony and reception photography',
-    status: 'confirmed' as const,
-    clientName: 'John & Sarah',
-    contactNo: '+1234567890'
-  },
-  {
-    id: '2',
-    title: 'Corporate Event',
-    date: new Date(2025, 5, 20), // June 20, 2025
-    time: '09:00',
-    description: 'Annual company meeting and team building activities',
-    status: 'pending' as const,
-    clientName: 'Tech Corp',
-    contactNo: '+1987654321'
-  },
-  {
-    id: '3',
-    title: 'Birthday Party',
-    date: new Date(2025, 5, 25), // June 25, 2025
-    time: '16:00',
-    description: 'Kids birthday party with decorations and entertainment',
-    status: 'confirmed' as const,
-    clientName: 'Emily Johnson',
-    contactNo: '+1122334455'
-  }
-];
+interface Event {
+  id: string;
+  title: string;
+  date: Date;
+  time: string;
+  description: string;
+  status: 'confirmed' | 'pending' | 'cancelled';
+  clientName?: string;
+  contactNo?: string;
+}
 
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [events, setEvents] = useState<Event[]>([]);
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -56,10 +34,30 @@ const Index = () => {
 
   const handleCheckDetails = () => {
     if (!selectedDate) {
-      // If no date is selected, select today
       setSelectedDate(new Date());
     }
     setIsDetailsOpen(true);
+  };
+
+  const handleBookingSubmit = (bookingData: {
+    name: string;
+    contactNo: string;
+    date: Date;
+    time: string;
+    description: string;
+  }) => {
+    const newEvent: Event = {
+      id: Date.now().toString(),
+      title: `Event for ${bookingData.name}`,
+      date: bookingData.date,
+      time: bookingData.time,
+      description: bookingData.description,
+      status: 'confirmed',
+      clientName: bookingData.name,
+      contactNo: bookingData.contactNo
+    };
+
+    setEvents(prevEvents => [...prevEvents, newEvent]);
   };
 
   return (
@@ -84,7 +82,7 @@ const Index = () => {
           {/* Calendar Section */}
           <div className="lg:col-span-2">
             <CalendarWidget 
-              events={sampleEvents}
+              events={events}
               selectedDate={selectedDate}
               onDateSelect={handleDateSelect}
             />
@@ -134,18 +132,18 @@ const Index = () => {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Total Events</span>
-                    <span className="font-medium">{sampleEvents.length}</span>
+                    <span className="font-medium">{events.length}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Confirmed</span>
                     <span className="font-medium text-green-600">
-                      {sampleEvents.filter(e => e.status === 'confirmed').length}
+                      {events.filter(e => e.status === 'confirmed').length}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Pending</span>
                     <span className="font-medium text-yellow-600">
-                      {sampleEvents.filter(e => e.status === 'pending').length}
+                      {events.filter(e => e.status === 'pending').length}
                     </span>
                   </div>
                 </div>
@@ -159,13 +157,14 @@ const Index = () => {
           isOpen={isBookingOpen}
           onClose={() => setIsBookingOpen(false)}
           selectedDate={selectedDate}
+          onSubmit={handleBookingSubmit}
         />
         
         <DetailsModal 
           isOpen={isDetailsOpen}
           onClose={() => setIsDetailsOpen(false)}
           selectedDate={selectedDate}
-          events={sampleEvents}
+          events={events}
         />
       </div>
     </div>

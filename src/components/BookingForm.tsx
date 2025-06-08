@@ -16,9 +16,16 @@ interface BookingFormProps {
   isOpen: boolean;
   onClose: () => void;
   selectedDate?: Date;
+  onSubmit: (bookingData: {
+    name: string;
+    contactNo: string;
+    date: Date;
+    time: string;
+    description: string;
+  }) => void;
 }
 
-const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate }) => {
+const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: '',
     contactNo: '',
@@ -30,6 +37,9 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Booking Data:', formData);
+    
+    // Call the onSubmit prop to add the booking to the parent state
+    onSubmit(formData);
     
     toast({
       title: "Booking Submitted!",
