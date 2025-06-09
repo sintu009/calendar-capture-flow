@@ -43,7 +43,6 @@ const CalendarWidget: React.FC<CalendarWidgetProps> = ({ events, selectedDate, o
       color: 'hsl(var(--primary-foreground))',
       fontWeight: 'bold',
       borderRadius: '8px',
-      position: 'relative',
     },
   };
 
