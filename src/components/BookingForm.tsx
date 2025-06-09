@@ -7,8 +7,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { format } from 'date-fns';
-import { CalendarIcon, User, Phone, Clock, FileText, Send, X, Sparkles } from 'lucide-react';
+import { CalendarIcon, User, Phone, Clock, FileText, Send, X, Sparkles, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from '@/hooks/use-toast';
 
@@ -21,6 +22,7 @@ interface BookingFormProps {
     contactNo: string;
     date: Date;
     time: string;
+    hallType: string;
     description: string;
   }) => void;
 }
@@ -31,6 +33,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
     contactNo: '',
     date: selectedDate || new Date(),
     time: '',
+    hallType: '',
     description: ''
   });
 
@@ -42,7 +45,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
     
     toast({
       title: "🎉 Booking Confirmed!",
-      description: `Thank you ${formData.name}! Your booking for ${format(formData.date, 'PPP')} at ${formData.time} has been successfully confirmed.`,
+      description: `Thank you ${formData.name}! Your ${formData.hallType} booking for ${format(formData.date, 'PPP')} at ${formData.time} has been successfully confirmed.`,
     });
     
     setFormData({
@@ -50,6 +53,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
       contactNo: '',
       date: new Date(),
       time: '',
+      hallType: '',
       description: ''
     });
     
@@ -157,6 +161,29 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
                 className="h-10 lg:h-12 border-2 border-purple-200 focus:border-purple-400 rounded-lg transition-all duration-200 bg-white/80"
               />
             </div>
+          </div>
+
+          <div className="space-y-2 lg:space-y-3">
+            <Label className="text-sm font-semibold flex items-center gap-2 text-purple-700">
+              <MapPin className="h-4 w-4 text-purple-500" />
+              Hall Type
+            </Label>
+            <Select value={formData.hallType} onValueChange={(value) => handleInputChange('hallType', value)} required>
+              <SelectTrigger className="h-10 lg:h-12 border-2 border-purple-200 focus:border-purple-400 transition-all duration-200 bg-white/80">
+                <SelectValue placeholder="Select hall type" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-2 border-purple-200 shadow-xl">
+                <SelectItem value="banquet" className="focus:bg-purple-50 cursor-pointer">
+                  Banquet Hall
+                </SelectItem>
+                <SelectItem value="kitty" className="focus:bg-purple-50 cursor-pointer">
+                  Kitty Party Hall
+                </SelectItem>
+                <SelectItem value="restaurant" className="focus:bg-purple-50 cursor-pointer">
+                  Restaurant
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2 lg:space-y-3">

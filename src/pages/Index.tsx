@@ -44,11 +44,18 @@ const Index = () => {
     contactNo: string;
     date: Date;
     time: string;
+    hallType: string;
     description: string;
   }) => {
+    const hallTypeDisplayMap: Record<string, string> = {
+      banquet: 'Banquet Hall',
+      kitty: 'Kitty Party Hall',
+      restaurant: 'Restaurant'
+    };
+
     const newEvent: Event = {
       id: Date.now().toString(),
-      title: `Event for ${bookingData.name}`,
+      title: `${hallTypeDisplayMap[bookingData.hallType]} - ${bookingData.name}`,
       date: bookingData.date,
       time: bookingData.time,
       description: bookingData.description,
