@@ -82,25 +82,7 @@ const Index = () => {
       </div>
       
       <div className="max-w-7xl mx-auto p-4 lg:p-6 space-y-6 lg:space-y-8 relative">
-        {/* Header */}
-        <div className="text-center space-y-4 lg:space-y-6 py-8 lg:py-12">
-          <div className="inline-flex items-center justify-center p-3 bg-gradient-to-br from-purple-100 to-pink-100 rounded-full mb-4 animate-bounce">
-            <Calendar className="h-8 w-8 text-purple-600" />
-            <Sparkles className="h-6 w-6 text-pink-500 ml-2" />
-          </div>
-          <div className="space-y-3 lg:space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent leading-tight">
-              Event Booking
-            </h1>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Calendar
-            </h2>
-          </div>
-          <p className="text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
-            Seamlessly manage your events, schedule bookings, and track your calendar all in one elegant platform. 
-            Select a date to view details or book a new event with ease.
-          </p>
-        </div>
+         
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
