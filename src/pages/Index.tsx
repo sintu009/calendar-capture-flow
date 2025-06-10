@@ -1,10 +1,12 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import CalendarWidget from '@/components/CalendarWidget';
 import BookingForm from '@/components/BookingForm';
 import DetailsModal from '@/components/DetailsModal';
+import Navigation from '@/components/Navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import { Calendar, Book, Check, Users, Clock, Star, Sparkles } from 'lucide-react';
 
 interface Event {
@@ -23,6 +25,29 @@ const Index = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [events, setEvents] = useState<Event[]>([]);
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null; // Will redirect to auth page
+  }
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -82,7 +107,7 @@ const Index = () => {
       </div>
       
       <div className="max-w-7xl mx-auto p-4 lg:p-6 space-y-6 lg:space-y-8 relative">
-         
+        <Navigation />
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
