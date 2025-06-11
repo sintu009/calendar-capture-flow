@@ -48,19 +48,19 @@ const CalendarWidget: React.FC<CalendarWidgetProps> = ({ events, selectedDate, o
 
   return (
     <Card className="w-full shadow-xl border-0 bg-gradient-to-br from-white via-purple-50/30 to-pink-50/30 backdrop-blur-sm overflow-hidden">
-      <CardHeader className="text-center pb-4 lg:pb-6 bg-gradient-to-r from-purple-100/50 via-pink-100/50 to-blue-100/50 border-b border-purple-200/50">
-        <div className="flex items-center justify-center gap-3 mb-3 lg:mb-4">
+{/*       <CardHeader className="text-center pb-4 lg:pb-6 bg-gradient-to-r from-purple-100/50 via-pink-100/50 to-blue-100/50 border-b border-purple-200/50"> */}
+{/*         <div className="flex items-center justify-center gap-3 mb-3 lg:mb-4">
           <div className="p-2 lg:p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full shadow-lg">
             <CalendarDays className="h-6 w-6 lg:h-7 lg:w-7 text-white" />
           </div>
           <Sparkles className="h-5 w-5 lg:h-6 lg:w-6 text-purple-500 animate-pulse" />
           <Star className="h-4 w-4 lg:h-5 lg:w-5 text-pink-500 animate-pulse delay-500" />
-        </div>
-        <CardTitle className="text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent leading-tight">
+        </div> */}
+{/*         <CardTitle className="text-3xl lg:text-4xl xl:text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent leading-tight">
           Event Calendar
-        </CardTitle>
-        <p className="text-gray-600 text-sm lg:text-base font-medium px-4">Select a date to view or book events</p>
-      </CardHeader>
+        </CardTitle> */}
+{/*         <p className="text-gray-600 text-sm lg:text-base font-medium px-4">Select a date to view or book events</p>
+      </CardHeader> */}
       <CardContent className="p-4 lg:p-6 xl:p-8">
         <div className="relative">
           <Calendar
