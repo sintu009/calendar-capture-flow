@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -5,15 +6,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import CalendarWidget from '@/components/CalendarWidget';
 import BookingForm from '@/components/BookingForm';
 import DetailsModal from '@/components/DetailsModal';
+import HistoryModal from '@/components/HistoryModal';
 import Navigation from '@/components/Navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEvents } from '@/hooks/useEvents';
-import { Calendar, Book, Check, Users, Clock, Star, Sparkles } from 'lucide-react';
+import { Calendar, Book, Check, Users, Clock, Star, Sparkles, History } from 'lucide-react';
 
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const { user, loading: authLoading } = useAuth();
   const { events, loading: eventsLoading, addEvent } = useEvents();
   const navigate = useNavigate();
@@ -52,6 +55,10 @@ const Index = () => {
       setSelectedDate(new Date());
     }
     setIsDetailsOpen(true);
+  };
+
+  const handleViewHistory = () => {
+    setIsHistoryOpen(true);
   };
 
   const handleBookingSubmit = async (bookingData: {
@@ -177,6 +184,16 @@ const Index = () => {
                   <Check className="mr-2 lg:mr-3 h-5 w-5 lg:h-6 lg:w-6" />
                   View Details
                 </Button>
+
+                <Button 
+                  onClick={handleViewHistory}
+                  variant="outline"
+                  className="w-full h-12 lg:h-14 text-base lg:text-lg font-semibold border-2 border-blue-200 hover:border-blue-400 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg text-blue-600"
+                  size="lg"
+                >
+                  <History className="mr-2 lg:mr-3 h-5 w-5 lg:h-6 lg:w-6" />
+                  View History
+                </Button>
               </CardContent>
             </Card>
 
@@ -239,6 +256,12 @@ const Index = () => {
           isOpen={isDetailsOpen}
           onClose={() => setIsDetailsOpen(false)}
           selectedDate={selectedDate}
+          events={events}
+        />
+
+        <HistoryModal 
+          isOpen={isHistoryOpen}
+          onClose={() => setIsHistoryOpen(false)}
           events={events}
         />
       </div>
