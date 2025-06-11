@@ -10,7 +10,7 @@ import HistoryModal from '@/components/HistoryModal';
 import Navigation from '@/components/Navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEvents } from '@/hooks/useEvents';
-import { Calendar, Book, Check, Users, Clock, Star, Sparkles, History } from 'lucide-react';
+import { Book, Check, Users, Star, History } from 'lucide-react';
 
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -88,51 +88,6 @@ const Index = () => {
       
       <div className="max-w-7xl mx-auto p-4 lg:p-6 space-y-6 lg:space-y-8 relative">
         <Navigation />
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
-          <Card className="bg-gradient-to-br from-purple-500 to-purple-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-white">
-            <CardContent className="p-4 lg:p-6">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-white/20 rounded-full backdrop-blur-sm">
-                  <Calendar className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-purple-100">Total Events</p>
-                  <p className="text-xl lg:text-2xl font-bold text-white">{totalEvents}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-green-500 to-emerald-600 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-white">
-            <CardContent className="p-4 lg:p-6">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-white/20 rounded-full backdrop-blur-sm">
-                  <Check className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-green-100">Confirmed</p>
-                  <p className="text-xl lg:text-2xl font-bold text-white">{confirmedEvents}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-orange-500 to-yellow-500 border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-white sm:col-span-2 lg:col-span-1">
-            <CardContent className="p-4 lg:p-6">
-              <div className="flex items-center gap-3 lg:gap-4">
-                <div className="p-2 lg:p-3 bg-white/20 rounded-full backdrop-blur-sm">
-                  <Clock className="h-5 w-5 lg:h-6 lg:w-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm text-orange-100">Pending</p>
-                  <p className="text-xl lg:text-2xl font-bold text-white">{pendingEvents}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Main Content */}
         <div className="grid lg:grid-cols-4 gap-6 lg:gap-8">
