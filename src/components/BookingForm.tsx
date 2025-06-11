@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { format } from 'date-fns';
 import { CalendarIcon, User, Phone, Clock, FileText, Send, X, Sparkles, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { toast } from '@/hooks/use-toast';
 
 interface BookingFormProps {
   isOpen: boolean;
@@ -24,7 +22,7 @@ interface BookingFormProps {
     time: string;
     hallType: string;
     description: string;
-  }) => void;
+  }) => Promise<void>;
 }
 
 const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate, onSubmit }) => {
@@ -36,28 +34,32 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
     hallType: '',
     description: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Booking Data:', formData);
+    setIsSubmitting(true);
     
-    onSubmit(formData);
-    
-    toast({
-      title: "🎉 Booking Confirmed!",
-      description: `Thank you ${formData.name}! Your ${formData.hallType} booking for ${format(formData.date, 'PPP')} at ${formData.time} has been successfully confirmed.`,
-    });
-    
-    setFormData({
-      name: '',
-      contactNo: '',
-      date: new Date(),
-      time: '',
-      hallType: '',
-      description: ''
-    });
-    
-    onClose();
+    try {
+      console.log('Submitting booking data:', formData);
+      await onSubmit(formData);
+      
+      // Reset form after successful submission
+      setFormData({
+        name: '',
+        contactNo: '',
+        date: new Date(),
+        time: '',
+        hallType: '',
+        description: ''
+      });
+      
+      onClose();
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string | Date) => {
@@ -206,6 +208,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
               type="button" 
               variant="outline" 
               onClick={onClose} 
+              disabled={isSubmitting}
               className="flex-1 h-10 lg:h-12 border-2 border-gray-300 hover:bg-gray-50 transition-all duration-200 text-gray-600"
             >
               <X className="mr-2 h-4 w-4" />
@@ -213,10 +216,11 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
             </Button>
             <Button 
               type="submit" 
-              className="flex-1 h-10 lg:h-12 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl text-white border-0"
+              disabled={isSubmitting}
+              className="flex-1 h-10 lg:h-12 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-600 hover:from-purple-600 hover:via-pink-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl text-white border-0 disabled:opacity-50"
             >
               <Send className="mr-2 h-4 w-4" />
-              Submit Booking
+              {isSubmitting ? 'Saving...' : 'Submit Booking'}
             </Button>
           </div>
         </form>

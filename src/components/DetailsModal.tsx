@@ -15,8 +15,9 @@ interface Event {
   time: string;
   description: string;
   status: 'confirmed' | 'pending' | 'cancelled';
-  clientName?: string;
-  contactNo?: string;
+  clientName: string;
+  contactNo: string;
+  hallType: string;
 }
 
 interface DetailsModalProps {
@@ -107,29 +108,25 @@ const DetailsModal: React.FC<DetailsModalProps> = ({ isOpen, onClose, selectedDa
                           </div>
                         </div>
 
-                        {event.clientName && (
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
-                              <User className="h-4 w-4 text-primary" />
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium text-foreground">Client Name</p>
-                              <p className="text-sm text-muted-foreground">{event.clientName}</p>
-                            </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
+                            <User className="h-4 w-4 text-primary" />
                           </div>
-                        )}
+                          <div>
+                            <p className="text-sm font-medium text-foreground">Client Name</p>
+                            <p className="text-sm text-muted-foreground">{event.clientName}</p>
+                          </div>
+                        </div>
 
-                        {event.contactNo && (
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
-                              <Phone className="h-4 w-4 text-primary" />
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium text-foreground">Contact Number</p>
-                              <p className="text-sm text-muted-foreground">{event.contactNo}</p>
-                            </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">
+                            <Phone className="h-4 w-4 text-primary" />
                           </div>
-                        )}
+                          <div>
+                            <p className="text-sm font-medium text-foreground">Contact Number</p>
+                            <p className="text-sm text-muted-foreground">{event.contactNo}</p>
+                          </div>
+                        </div>
 
                         <div className="flex items-center gap-3">
                           <div className="flex items-center justify-center w-8 h-8 bg-primary/10 rounded-full">

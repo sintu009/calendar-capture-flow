@@ -7,34 +7,24 @@ import BookingForm from '@/components/BookingForm';
 import DetailsModal from '@/components/DetailsModal';
 import Navigation from '@/components/Navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useEvents } from '@/hooks/useEvents';
 import { Calendar, Book, Check, Users, Clock, Star, Sparkles } from 'lucide-react';
-
-interface Event {
-  id: string;
-  title: string;
-  date: Date;
-  time: string;
-  description: string;
-  status: 'confirmed' | 'pending' | 'cancelled';
-  clientName?: string;
-  contactNo?: string;
-}
 
 const Index = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [events, setEvents] = useState<Event[]>([]);
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const { events, loading: eventsLoading, addEvent } = useEvents();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       navigate('/auth');
     }
-  }, [user, loading, navigate]);
+  }, [user, authLoading, navigate]);
 
-  if (loading) {
+  if (authLoading || eventsLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
@@ -64,7 +54,7 @@ const Index = () => {
     setIsDetailsOpen(true);
   };
 
-  const handleBookingSubmit = (bookingData: {
+  const handleBookingSubmit = async (bookingData: {
     name: string;
     contactNo: string;
     date: Date;
@@ -72,24 +62,7 @@ const Index = () => {
     hallType: string;
     description: string;
   }) => {
-    const hallTypeDisplayMap: Record<string, string> = {
-      banquet: 'Banquet Hall',
-      kitty: 'Kitty Party Hall',
-      restaurant: 'Restaurant'
-    };
-
-    const newEvent: Event = {
-      id: Date.now().toString(),
-      title: `${hallTypeDisplayMap[bookingData.hallType]} - ${bookingData.name}`,
-      date: bookingData.date,
-      time: bookingData.time,
-      description: bookingData.description,
-      status: 'confirmed',
-      clientName: bookingData.name,
-      contactNo: bookingData.contactNo
-    };
-
-    setEvents(prevEvents => [...prevEvents, newEvent]);
+    await addEvent(bookingData);
   };
 
   const confirmedEvents = events.filter(e => e.status === 'confirmed').length;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,8 +13,9 @@ interface Event {
   time: string;
   description: string;
   status: 'confirmed' | 'pending' | 'cancelled';
-  clientName?: string;
-  contactNo?: string;
+  clientName: string;
+  contactNo: string;
+  hallType: string;
 }
 
 interface CalendarWidgetProps {
