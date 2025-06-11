@@ -104,10 +104,10 @@ const Index = () => {
           <div className="space-y-4 lg:space-y-6 order-1 lg:order-2">
             <Card className="bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg backdrop-blur-sm">
               <CardHeader className="text-center pb-3 lg:pb-4">
-                <CardTitle className="text-xl lg:text-2xl font-semibold flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+{/*                 <CardTitle className="text-xl lg:text-2xl font-semibold flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
                   <Star className="h-5 w-5 text-purple-500" />
                   Quick Actions
-                </CardTitle>
+                </CardTitle> */}
                 <p className="text-gray-600 text-xs lg:text-sm">
                   {selectedDate 
                     ? `Selected: ${selectedDate.toLocaleDateString('en-US', { 
