@@ -128,7 +128,7 @@ const CalendarWidget: React.FC<CalendarWidgetProps> = ({ events, selectedDate, o
         )}
 
         {/* Enhanced Legend */}
-        <div className="mt-6 lg:mt-8 flex flex-wrap items-center justify-center gap-4 lg:gap-8 text-sm">
+{/*         <div className="mt-6 lg:mt-8 flex flex-wrap items-center justify-center gap-4 lg:gap-8 text-sm">
           <div className="flex items-center gap-2 lg:gap-3 p-2 lg:p-3 bg-gradient-to-r from-purple-100 to-pink-100 rounded-lg border border-purple-200">
             <div className="w-4 h-4 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 shadow-sm"></div>
             <span className="text-purple-700 font-medium text-xs lg:text-sm">Has Events</span>
@@ -141,7 +141,7 @@ const CalendarWidget: React.FC<CalendarWidgetProps> = ({ events, selectedDate, o
             <div className="w-4 h-4 rounded-md bg-gradient-to-br from-purple-500 to-pink-500 border-2 border-white shadow-sm"></div>
             <span className="text-gray-700 font-medium text-xs lg:text-sm">Selected</span>
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );
