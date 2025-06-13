@@ -36,6 +36,22 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
     description: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showCustomTime, setShowCustomTime] = useState(false);
+
+  const predefinedTimes = [
+    '09:00 AM',
+    '10:00 AM',
+    '11:00 AM',
+    '12:00 PM',
+    '01:00 PM',
+    '02:00 PM',
+    '03:00 PM',
+    '04:00 PM',
+    '05:00 PM',
+    '06:00 PM',
+    '07:00 PM',
+    '08:00 PM'
+  ];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,6 +70,7 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
         hallType: '',
         description: ''
       });
+      setShowCustomTime(false);
       
       onClose();
     } catch (error) {
@@ -68,6 +85,16 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
       ...prev,
       [field]: value
     }));
+  };
+
+  const handleTimeSelect = (value: string) => {
+    if (value === 'custom') {
+      setShowCustomTime(true);
+      setFormData(prev => ({ ...prev, time: '' }));
+    } else {
+      setShowCustomTime(false);
+      setFormData(prev => ({ ...prev, time: value }));
+    }
   };
 
   return (
@@ -144,25 +171,43 @@ const BookingForm: React.FC<BookingFormProps> = ({ isOpen, onClose, selectedDate
                     selected={formData.date}
                     onSelect={(date) => date && handleInputChange('date', date)}
                     initialFocus
-                    className="p-3 lg:p-4"
+                    className="p-3 lg:p-4 pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>
             </div>
 
             <div className="space-y-2 lg:space-y-3">
-              <Label htmlFor="time" className="text-sm font-semibold flex items-center gap-2 text-blue-700">
+              <Label className="text-sm font-semibold flex items-center gap-2 text-blue-700">
                 <Clock className="h-4 w-4 text-blue-500" />
                 Preferred Time
               </Label>
-              <Input
-                id="time"
-                type="time"
-                value={formData.time}
-                onChange={(e) => handleInputChange('time', e.target.value)}
-                required
-                className="h-10 lg:h-12 border-2 border-blue-200 focus:border-blue-400 rounded-lg transition-all duration-200 bg-white/80"
-              />
+              <Select value={showCustomTime ? 'custom' : formData.time} onValueChange={handleTimeSelect} required>
+                <SelectTrigger className="h-10 lg:h-12 border-2 border-blue-200 focus:border-blue-400 transition-all duration-200 bg-white/80">
+                  <SelectValue placeholder="Select time" />
+                </SelectTrigger>
+                <SelectContent className="bg-white border-2 border-blue-200 shadow-xl max-h-60">
+                  {predefinedTimes.map((time) => (
+                    <SelectItem key={time} value={time} className="focus:bg-blue-50 cursor-pointer">
+                      {time}
+                    </SelectItem>
+                  ))}
+                  <SelectItem value="custom" className="focus:bg-blue-50 cursor-pointer font-medium text-blue-600">
+                    Custom Time
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              
+              {showCustomTime && (
+                <Input
+                  type="time"
+                  placeholder="Enter custom time"
+                  value={formData.time}
+                  onChange={(e) => handleInputChange('time', e.target.value)}
+                  required
+                  className="h-10 lg:h-12 border-2 border-blue-200 focus:border-blue-400 rounded-lg transition-all duration-200 bg-white/80 mt-2"
+                />
+              )}
             </div>
           </div>
 
